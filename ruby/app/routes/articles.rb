@@ -12,22 +12,22 @@ class ArticleRoutes < Sinatra::Base
     content_type :json
   end
 
-  get('/') do
-    summmary = @articleCtrl.get_batch
+  get('/') do 
+    summmary = @articleCtrl.get_batch #TODO: Understand get_batch
 
-    if !(summary[:ok])
+    if !(summary[:ok]) #TODO: Verify logic
       { articles: summary[:data] }.to_json
     else
       { msg: 'Could not get articles.' }.to_json
     end
   end
 
-  get('/:id') do
+  get('/:id') do #TODO: No content in the action
     
   end
 
   post('/') do
-    payload = JSON.parse(request.body.read)
+    payload = JSON.parse(request.body.read) #TODO: Verify if it is possible to use params
     summary = @articleCtrl.update_article(payload)
 
     if summary[:ok]

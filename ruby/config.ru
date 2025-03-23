@@ -18,3 +18,4 @@ end
 map '/articles' do
   run ArticleRoutes.new
 end
+#TODO: Verify the file extension "ru"
