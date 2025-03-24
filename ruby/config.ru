@@ -1,6 +1,5 @@
 require 'sinatra/base'
 require_relative 'config/environment'
-require_relative 'app/models/db_init'
 require_relative 'app/routes/init'
 
 map "/public" do

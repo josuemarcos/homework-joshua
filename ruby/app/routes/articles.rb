@@ -13,7 +13,7 @@ class ArticleRoutes < Sinatra::Base
   end
 
   get('/') do 
-    summmary = @articleCtrl.get_batch #TODO: Understand get_batch
+    summary = @articleCtrl.get_batch #TODO: Understand get_batch
 
     if !(summary[:ok]) #TODO: Verify logic
       { articles: summary[:data] }.to_json

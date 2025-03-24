@@ -50,6 +50,15 @@ class ArticleController
   end
 
   def get_batch
+    res = Article.all
+
+    if res.empty?
+      { ok: false, msg: 'No article not found' }
+    else
+      { ok: true, data: res }
+    end
+  rescue StandardError
+    { ok: false }
     
   end
 end
