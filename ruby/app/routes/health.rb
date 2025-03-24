@@ -1,4 +1,9 @@
+require_relative '../middleware/auth'
+require 'sinatra'
+
+
 class HealthRoutes < Sinatra::Base
+  use AuthMiddleware
     
   get('/') do
     if request.env['AUTHED'] == true

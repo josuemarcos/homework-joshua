@@ -49,6 +49,8 @@ class ArticleController
       delete_count =  1
       { ok: true, delete_count: delete_count }
     end
+    rescue StandardError
+      { ok: false }
   end
 
   def get_batch
@@ -56,7 +58,7 @@ class ArticleController
     res = Article.all
 
     if res.empty?
-      { ok: false, msg: 'Article not found' }
+      { ok: false, msg: 'No article not found' }
     else
       { ok: true, data: res }
     end
@@ -64,4 +66,5 @@ class ArticleController
     { ok: false }
     
   end
+  
 end

@@ -1,7 +1,8 @@
 require 'sinatra/base'
 require_relative 'config/environment'
 require_relative 'app/models/db_init'
-require_relative 'app/routes/init'
+require_relative 'app/routes/articles'
+
 
 map "/public" do
   run Rack::Directory.new("./public")
@@ -18,3 +19,4 @@ end
 map '/articles' do
   run ArticleRoutes.new
 end
+

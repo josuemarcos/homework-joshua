@@ -18,13 +18,14 @@ class AuthMiddleware
     if creds[0].eql?(@stored_creds[0]) && creds[1].eql?(@stored_creds[1])
       @req = Rack::Request.new(env)
       @req.set_header('AUTHED', true)
-
       status, headers, response = @app.call(env)
       [status, headers, response]
     else
       Rack::Response.new('UNAUTHORIZED', 401, {}).finish
     end
   rescue StandardError => e
-    Rack::Response.new('SOMETHING WENT WRONG!', 501, {}).finish
+    puts "AuthMiddleware Error: #{e.message}"
+    puts e.backtrace.join("\n")
+    Rack::Response.new("SOMETHING WENT WRONG: #{e.message}", 501, {}).finish
   end
 end

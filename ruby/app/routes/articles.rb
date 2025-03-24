@@ -1,4 +1,6 @@
 require_relative '../controllers/articles'
+require_relative '../middleware/auth'
+require 'sinatra'
 
 class ArticleRoutes < Sinatra::Base
   use AuthMiddleware
@@ -23,21 +25,24 @@ class ArticleRoutes < Sinatra::Base
   end
 
   get('/:id') do
-    summary = get_article(params[:id])
+    puts "Received request: #{request.request_method} #{request.path}"
+    summary = @articleCtrl.get_article(params[:id])
 
     if (summary[:ok])
+      status 200
       { article: summary[:data] }.to_json
     else
+      status 200
       { msg: 'Could not get articles.' }.to_json
     end
   end
 
   post('/') do
     payload = JSON.parse(request.body.read)
-    summary = @articleCtrl.update_article(payload)
+    summary = @articleCtrl.create_article(payload)
 
     if summary[:ok]
-      { msg: 'Article updated' }.to_json
+      { msg: 'Article created' }.to_json
     else
       { msg: summary[:msg] }.to_json
     end
@@ -48,7 +53,7 @@ class ArticleRoutes < Sinatra::Base
     summary = @articleCtrl.update_article(params[:id], payload)
 
     if summary[:ok]
-      { article: summary[:data] }.to_json
+      { msg: 'Article updated' }.to_json
     else
       { msg: summary[:msg] }.to_json
     end
@@ -62,5 +67,11 @@ class ArticleRoutes < Sinatra::Base
     else
       { msg: 'Article does not exist' }.to_json
     end
+  end
+
+  get '/routes' do
+
+    {msg: 'Hello there!'}.to_json
+    
   end
 end
