@@ -27,7 +27,6 @@ class ArticleRoutes < Sinatra::Base
   end
 
   get('/:id') do
-    puts "Received request: #{request.request_method} #{request.path}"
     summary = @articleCtrl.get_article(params[:id])
 
     if (summary[:ok])
@@ -80,6 +79,18 @@ class ArticleRoutes < Sinatra::Base
     else
       status 404
       { msg: summary[:msg] }.to_json
+    end
+  end
+
+  get('/:article_id/comments/:id') do
+    summary = @commentCtrl.get_comment(params[:article_id], params[:id])
+
+    if (summary[:ok])
+      status 200
+      { comment: summary[:data] }.to_json
+    else
+      status 200
+      { msg: 'Could not find the comment!.' }.to_json
     end
   end
 end
