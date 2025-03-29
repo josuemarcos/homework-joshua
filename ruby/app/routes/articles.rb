@@ -1,4 +1,5 @@
 require_relative '../controllers/articles'
+require_relative '../controllers/comments'
 require_relative '../middleware/auth'
 require 'sinatra'
 
@@ -8,6 +9,7 @@ class ArticleRoutes < Sinatra::Base
   def initialize
     super
     @articleCtrl = ArticleController.new
+    @commentCtrl = CommentController.new
   end
 
   before do
@@ -69,9 +71,15 @@ class ArticleRoutes < Sinatra::Base
     end
   end
 
-  get '/routes' do
+  get('/:article_id/comments') do
+    summary = @commentCtrl.get_batch(params[:article_id])
 
-    {msg: 'Hello there!'}.to_json
-    
+    if (summary[:ok])
+      status 200
+      { comments: summary[:data] }.to_json
+    else
+      status 404
+      { msg: summary[:msg] }.to_json
+    end
   end
 end

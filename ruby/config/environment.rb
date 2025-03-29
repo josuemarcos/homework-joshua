@@ -6,6 +6,7 @@ require_relative '../app/routes/home'
 require_relative '../app/routes/articles'
 require_relative '../app/routes/health'
 require_relative '../app/models/article'
+require_relative '../app/models/comment'
 require_relative '../app/middleware/auth'
 
 

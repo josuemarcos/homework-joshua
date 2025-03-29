@@ -49,8 +49,8 @@ class ArticleController
       delete_count =  1
       { ok: true, delete_count: delete_count }
     end
-    rescue StandardError
-      { ok: false }
+  rescue StandardError
+    { ok: false }
   end
 
   def get_batch
