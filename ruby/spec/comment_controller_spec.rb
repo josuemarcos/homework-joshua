@@ -43,5 +43,24 @@ describe CommentController do
     expect(result[:obj]).to be_truthy
   end
 
+  it 'updates the test comment in db' do
+    comment = {'content' => 'The comment was updated using Rspec', 'author_name' => 'Test Author'}
+    result = controller.update_comment(4, comment)
+    expect(result).to have_key(:ok)
+    expect(result[:ok]).to be true
+    expect(result).to have_key(:obj)
+    expect(result[:obj]).to be_truthy
+    expect(result[:obj].id).to eq(4)
+  end
+
+  it 'tries to update a non-existent comment in db' do
+    comment = {'content' => 'The article was updated using Rspec', 'author_name' => 'Test Author' }
+    result = controller.update_comment(99, comment)
+    expect(result).to have_key(:ok)
+    expect(result[:ok]).to be false
+    expect(result).to have_key (:msg)
+  end
+
+
 
 end

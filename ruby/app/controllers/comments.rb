@@ -40,4 +40,19 @@ class CommentController
   rescue StandardError
     { ok: false }
   end
+
+  def update_comment(id, new_data)
+
+    comment = Comment.find_by(id: id)
+
+    return { ok: false, msg: 'Comment could not be found' } if comment.nil?
+
+    comment.content = new_data['content']
+    comment.author_name = new_data['author_name']
+    comment.save
+
+    return { ok: true, obj: comment }
+  rescue StandardError
+    { ok: false }
+  end
 end

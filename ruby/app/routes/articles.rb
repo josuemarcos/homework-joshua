@@ -110,4 +110,15 @@ class ArticleRoutes < Sinatra::Base
       { msg: summary[:msg] }.to_json
     end
   end
+
+  put ('/:article_id/comments/:id') do
+    payload = JSON.parse(request.body.read)
+    summary = @commentCtrl.update_comment(params[:id], payload)
+
+    if summary[:ok]
+      { msg: 'Comment updated' }.to_json
+    else
+      { msg: summary[:msg] }.to_json
+    end
+  end
 end
