@@ -87,14 +87,14 @@ class ArticleRoutes < Sinatra::Base
   end
 
   get('/:article_id/comments/:id') do
-    summary = @commentCtrl.get_comment(params[:article_id], params[:id])
+    summary = @commentCtrl.get_comment(params[:id])
 
     if (summary[:ok])
       status 200
       { comment: summary[:data] }.to_json
     else
-      status 200
-      { msg: 'Could not find the comment!.' }.to_json
+      status 404
+      { msg: summary[:msg] }.to_json
     end
   end
 
@@ -116,8 +116,22 @@ class ArticleRoutes < Sinatra::Base
     summary = @commentCtrl.update_comment(params[:id], payload)
 
     if summary[:ok]
+      status 200
       { msg: 'Comment updated' }.to_json
     else
+      status 422
+      { msg: summary[:msg] }.to_json
+    end
+  end
+
+  delete('/:article_id/comments/:id') do
+    summary = @commentCtrl.delete_comment(params[:id])
+
+    if summary[:ok]
+      status 200
+      { msg: 'Article deleted' }.to_json
+    else
+      status 404
       { msg: summary[:msg] }.to_json
     end
   end

@@ -26,7 +26,7 @@ describe CommentController do
   end
 
   it 'gets an comment from db' do
-    result = controller.get_comment(1, 1)
+    result = controller.get_comment(1)
     expect(result).to have_key(:ok)
     expect(result).to have_key(:data)
     expect(result[:ok]).to be true
@@ -61,6 +61,19 @@ describe CommentController do
     expect(result).to have_key (:msg)
   end
 
+  it 'deletes the test comment from db' do
+    result_d = controller.delete_comment(3)
+    result_g = controller.get_comment(3)
+    expect(result_d).to have_key(:ok)
+    expect(result_d[:ok]).to be true
+    expect(result_g[:msg]).to eq('Comment not found')
+  end
 
+  it 'tries to delete a non-existent comment' do
+    result = controller.delete_comment(99)
+    expect(result).to have_key(:ok)
+    expect(result[:ok]).to be false
+    expect(result[:msg]).to eq('Comment could not be found')
+  end
 
 end

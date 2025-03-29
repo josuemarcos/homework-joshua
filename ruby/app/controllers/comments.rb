@@ -17,12 +17,9 @@ class CommentController
     
   end
 
-  def get_comment(article_id, id)
-
-    article = Article.find_by(id: article_id)
-    return {ok: false, msg: 'Article not found'} if article.nil?
-
+  def get_comment(id)
     res = Comment.find_by(id: id)
+
     if res
       { ok: true, data: res }
     else
@@ -55,4 +52,17 @@ class CommentController
   rescue StandardError
     { ok: false }
   end
+
+  def delete_comment(id)
+
+    comment = Comment.find_by(id: id)
+
+    return { ok: false, msg: 'Comment could not be found' } if comment.nil?
+
+    comment.delete
+    {ok: true}  
+  rescue StandardError
+    { ok: false }
+  end
+
 end
