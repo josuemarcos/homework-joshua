@@ -34,5 +34,14 @@ describe CommentController do
     expect(result[:data][:content]).to eq('Nice Article!')
   end
 
+  it 'adds a test comment to db' do
+    comment = { 'content' => 'Test comment', 'author_name' => 'Test author' }
+    result = controller.create_comment(comment)
+    expect(result).to have_key(:ok)
+    expect(result[:ok]).to be true
+    expect(result).to have_key(:obj)
+    expect(result[:obj]).to be_truthy
+  end
+
 
 end

@@ -29,7 +29,15 @@ class CommentController
       { ok: false, msg: 'Comment not found' }
     end
   rescue StandardError => e
-    puts "Error fetching article: #{e.message} (#{e.class})"
+    puts "Error fetching comment: #{e.message} (#{e.class})"
     { ok: false, msg: e.message }
+  end
+
+  def create_comment(comment)
+    new_comment = Comment.new(:content => comment['content'], :author_name => comment['author_name'], :created_at => Time.now)
+    new_comment.save
+    { ok: true, obj: comment }
+  rescue StandardError
+    { ok: false }
   end
 end

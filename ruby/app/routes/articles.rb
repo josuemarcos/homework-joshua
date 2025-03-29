@@ -20,8 +20,10 @@ class ArticleRoutes < Sinatra::Base
     summary = @articleCtrl.get_batch
 
     if (summary[:ok])
+      status 200
       { articles: summary[:data] }.to_json
     else
+      status 404
       { msg: 'Could not get articles.' }.to_json
     end
   end
@@ -43,8 +45,10 @@ class ArticleRoutes < Sinatra::Base
     summary = @articleCtrl.create_article(payload)
 
     if summary[:ok]
+      status 200
       { msg: 'Article created' }.to_json
     else
+      status 422
       { msg: summary[:msg] }.to_json
     end
   end
@@ -91,6 +95,19 @@ class ArticleRoutes < Sinatra::Base
     else
       status 200
       { msg: 'Could not find the comment!.' }.to_json
+    end
+  end
+
+  post('/:article_id/comments') do
+    payload = JSON.parse(request.body.read)
+    summary = @commentCtrl.create_comment(payload)
+
+    if summary[:ok]
+      status 201
+      { msg: 'Comment created' }.to_json
+    else
+      status 422
+      { msg: summary[:msg] }.to_json
     end
   end
 end
