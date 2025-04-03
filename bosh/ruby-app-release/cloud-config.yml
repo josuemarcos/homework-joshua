@@ -1,0 +1,34 @@
+
+azs:
+  - name: z1
+
+vm_types:
+- name: default
+  cloud_properties:
+    cpu: 3
+    ram: 4096
+    disk: 2048
+
+disk_types:
+- name: default
+  disk_size: 2048
+
+networks:
+- name: my_network
+  type: manual
+  subnets:
+  - azs: [z1]
+    range: 10.244.0.0/24  # Default BOSH Lite subnet range
+    gateway: 10.244.0.1
+    dns: [8.8.8.8]  
+    static: [10.244.0.34]
+    reserved: []  
+
+compilation:
+  workers: 1
+  network: my_network
+  reuse_compilation_vms: true
+  az: z1
+  vm_type: default 
+  network: my_network
+

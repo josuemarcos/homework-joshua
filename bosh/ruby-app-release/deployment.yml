@@ -1,0 +1,31 @@
+---
+name: ruby-app-deployment
+
+stemcells:
+ - alias: default
+   os: ubuntu-jammy
+   version: latest
+
+releases:
+ - name: ruby-app-release
+   version: "0+dev.2"
+
+instance_groups:
+ - name: rubyweb
+   instances: 1
+   vm_type: default
+   stemcell: default
+   azs: [z1]
+   networks:
+    - name: my_network
+   jobs:
+    - name: rubyweb
+      release: ruby-app-release
+      properties:
+        port: 8080
+        bootstrap: "app.rb"
+update:
+  canaries: 1
+  max_in_flight: 1
+  canary_watch_time: 30000-300000
+  update_watch_time: 30000-300000

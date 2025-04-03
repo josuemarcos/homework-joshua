@@ -2,13 +2,11 @@
 
 port = p("port").to_i  #The test expect a integer value
 
-if port == 1024 || port == 7999
+if port < 8080
   raise "Invalid port number"
 end
 
 %>
-
-
 
 
 port: <%= port %>  

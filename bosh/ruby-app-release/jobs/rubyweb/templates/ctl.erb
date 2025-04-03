@@ -14,6 +14,8 @@ case $1 in
     echo $$ > $PIDFILE
     cd /var/vcap/packages/rubyweb
     source /var/vcap/packages/ruby-3.3/bosh/runtime.env
+    echo "Bootstrap value: <%= p('bootstrap') %>"  # Debug output for bootstrap
+    echo "Port value: <%= p('port') %>"           # Debug output for port
     <%= 
       start_file = p('bootstrap')
       if start_file.empty?
